@@ -1,3 +1,9 @@
 # GBPropLib
 
-[![Build Status](https://github.com/Kenaib/GBPropLib.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/Kenaib/GBPropLib.jl/actions/workflows/CI.yml?query=branch%3Amaster)
+A simple package designed for calculation of thermodynamic properties for personal use.
+
+## Version 
+
+This is 'GBPropLib-0.1.0-DEV'.
+
+
