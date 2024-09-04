@@ -39,7 +39,7 @@ function cv(Subs::String; T = 300, Base = "MO")
 
     #Base: MO (molar) or MA (mass)
     
-    if Subs ∉ keys(CoefMolarCvPropTable)
+    if Subs ∉ keys(CoefMolarCpPropTable)
 
         error("This substance is not supported yet!")
 
@@ -61,7 +61,7 @@ end
 
 function u(Subs::String; T = 300, Tref = 0, Base = "MO")
 
-    if Subs ∉ keys(CoefMolarCvPropTable)
+    if Subs ∉ keys(CoefMolarCpPropTable)
 
         error("This substance is not supported yet!")
 
@@ -83,7 +83,7 @@ end
 
 function h(Subs::String; T = 300, Tref = 0, Base = "MO")
 
-    if Subs ∉ keys(CoefMolarCvPropTable)
+    if Subs ∉ keys(CoefMolarCpPropTable)
 
         error("This substance is not supported yet!")
 
