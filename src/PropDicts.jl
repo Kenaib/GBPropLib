@@ -30,8 +30,10 @@ CoefMolarCpPropTable = Dict{String, Dict}(
 )
 
 #cp table available on Çengel and Boles (2013)
+#Molar mass: 
 
 MolarMassPropTable = Dict{String, Float64}(
+#"Subs" => Value (kmol/kg)
 "N2" => 28.0134,
 "O2" => 31.9988,
 "Air" => 28.966,
@@ -59,4 +61,10 @@ MolarMassPropTable = Dict{String, Float64}(
 "C6H14" => 86.178,
 "C2H4" => 28.054,
 "C3H6" => 42.081,
+)
+
+#Nature constants: 
+
+NatureConst = Dict{String, Any}(
+"Ru" => 8.31447 #kJ/(kmol*K)
 )
