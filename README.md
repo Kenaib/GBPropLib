@@ -4,6 +4,6 @@ A simple package designed for calculation of thermodynamic properties for person
 
 ## Version 
 
-This is 'GBPropLib-0.1.0-DEV'.
+This is `GBPropLib-0.1.0-DEV`.
 
 
