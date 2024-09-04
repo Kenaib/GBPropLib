@@ -1,5 +1,5 @@
 module GBPropLib
 
-# Write your package code here.
+include("PropDicts.jl")
 
 end
