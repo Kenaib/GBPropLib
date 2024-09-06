@@ -6,6 +6,6 @@ include("PropDicts.jl")
 
 #Add specific heat functions: 
 
-include("SpecificHeats.jl")
+include("PropFunctions.jl")
 
 end
