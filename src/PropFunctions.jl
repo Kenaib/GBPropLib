@@ -59,7 +59,7 @@ function cv(Subs::String; T = 300, Base = "MO")
 
 end
 
-function u(Subs::String; T = 300, Tref = 0, Base = "MO")
+function Δu(Subs::String; T = 300, Tref = 0, Base = "MO")
 
     if Subs ∉ keys(CoefMolarCpPropTable)
 
@@ -81,7 +81,7 @@ function u(Subs::String; T = 300, Tref = 0, Base = "MO")
 
 end
 
-function h(Subs::String; T = 300, Tref = 0, Base = "MO")
+function Δh(Subs::String; T = 300, Tref = 0, Base = "MO")
 
     if Subs ∉ keys(CoefMolarCpPropTable)
 
@@ -103,7 +103,7 @@ function h(Subs::String; T = 300, Tref = 0, Base = "MO")
 
 end
 
-function s(Subs::String; T = 300, v2 = nothing, v1 = nothing, P2 = nothing, P1 = nothing, Tref = 0, Base = "MO")
+function Δs(Subs::String; T = 300, v2 = nothing, v1 = nothing, P2 = nothing, P1 = nothing, Tref = 300, Base = "MO")
 
     #v2 and v1 are specific volumes at given states 1 and 2.
 
@@ -121,38 +121,46 @@ function s(Subs::String; T = 300, v2 = nothing, v1 = nothing, P2 = nothing, P1 =
 
         #Returns index where row -> !any(i -> i === nothing, row) is true, row is a row from PropMatrix, i is an element of a row. 
 
-        if !isnothing(PropMatrixIndex)
+        if Tref != 0
 
-            if PropMatrixIndex[1] == 1 #This one indicates that [v1, v2] is not nothing.
+            if !isempty(PropMatrixIndex)
 
-                if Base == "MO"
+                if PropMatrixIndex[1] == 1 #This one indicates that [v1, v2] is not nothing.
 
-                    return (CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) + NatureConst["Ru"]*log(v2/v1)
-        
-                elseif Base == "MA"
-        
-                    return 1/MolarMassPropTable[Subs]*((CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) + NatureConst["Ru"]*log(v2/v1))
-        
-                end
+                    if Base == "MO"
 
-            else 
-
-                if Base == "MO"
-
-                    return (CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) - NatureConst["Ru"]*log(P2/P1)
-        
-                elseif Base == "MA"
-        
-                    return 1/MolarMassPropTable[Subs]*((CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) - NatureConst["Ru"]*log(P2/P1))
-        
-                end
-        
-            end
+                        return (CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) + NatureConst["Ru"]*log(v2/v1)
             
+                    elseif Base == "MA"
+            
+                        return 1/MolarMassPropTable[Subs]*((CoefMolarCpPropTable[Subs]["a"] - NatureConst["Ru"])*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) + NatureConst["Ru"]*log(v2/v1))
+            
+                    end
+
+                else 
+
+                    if Base == "MO"
+
+                        return CoefMolarCpPropTable[Subs]["a"]*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) - NatureConst["Ru"]*log(P2/P1)
+            
+                    elseif Base == "MA"
+            
+                        return 1/MolarMassPropTable[Subs]*(CoefMolarCpPropTable[Subs]["a"]*log(T/Tref) + CoefMolarCpPropTable[Subs]["b"]*(T - Tref) + CoefMolarCpPropTable[Subs]["c"]/2*(T^2 - Tref^2) + CoefMolarCpPropTable[Subs]["d"]/3*(T^3 - Tref^3) - NatureConst["Ru"]*log(P2/P1))
+            
+                    end
+            
+                end
+                
+            else
+
+                error("Input pressure or specific volume of state i and i+1!")
+            
+            end
+
         else
 
-            error("Input pressure or specific volume of state i and i+1!")
-        
+            error("Tref must be different from zero!")
+
         end
 
     end
